@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Customer.io Form Test</title>
+    <script type="text/javascript">
+      (function() {
+        var t = document.createElement('script'),
+            s = document.getElementsByTagName('script')[0];
+        t.async = true;
+        t.id    = 'cio-forms-handler';
+        t.setAttribute('data-site-id', '8467d2493604d91cd7ab');
+        t.setAttribute('data-base-url', 'https://customerioforms.com');
+
+        t.src = 'https://customerioforms.com/assets/forms.js';
+
+        s.parentNode.insertBefore(t, s);
+      })();
+    </script>
+    <style>
+      :root {
+        color-scheme: light dark;
+      }
+      body {
+        font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+        margin: 2rem;
+        line-height: 1.4;
+      }
+      .container {
+        max-width: 560px;
+      }
+      form {
+        display: grid;
+        gap: 0.9rem;
+        margin-top: 1rem;
+      }
+      label {
+        font-weight: 600;
+      }
+      input,
+      select,
+      textarea,
+      button {
+        width: 100%;
+        box-sizing: border-box;
+        padding: 0.55rem;
+        font: inherit;
+      }
+      .inline {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+      .inline input {
+        width: auto;
+      }
+      button {
+        cursor: pointer;
+      }
+      small {
+        opacity: 0.8;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Simple Customer.io Test Form</h1>
+      <p>
+        Use this form to validate that submissions are captured in your Forms
+        integration.
+      </p>
+
+      <!-- Customer.io forms snippet is loaded in <head>. -->
+
+      <form id="cio-test-form" action="#" method="post">
+        <div>
+          <label for="first_name">First name</label>
+          <input id="first_name" name="first_name" type="text" required />
+        </div>
+
+        <div>
+          <label for="last_name">Last name</label>
+          <input id="last_name" name="last_name" type="text" required />
+        </div>
+
+        <div>
+          <label for="email">Email</label>
+          <input id="email" name="email" type="email" required />
+        </div>
+
+        <div>
+          <label for="phone">Phone</label>
+          <input id="phone" name="phone" type="tel" />
+        </div>
+
+        <div>
+          <label for="plan">Plan</label>
+          <select id="plan" name="plan">
+            <option value="free">Free</option>
+            <option value="starter">Starter</option>
+            <option value="pro">Pro</option>
+          </select>
+        </div>
+
+        <div>
+          <label for="notes">Notes</label>
+          <textarea id="notes" name="notes" rows="4"></textarea>
+        </div>
+
+        <label class="inline" for="consent">
+          <input id="consent" name="consent" type="checkbox" value="true" />
+          I agree to be contacted.
+        </label>
+
+        <button type="submit">Submit test form</button>
+      </form>
+
+      <small>
+        Tip: use a test email address each time so you can track updates clearly
+        in Customer.io activity.
+      </small>
+    </div>
+    <script type="text/javascript">
+      (function () {
+        var form = document.getElementById("cio-test-form");
+        if (!form) return;
+
+        function buildUid() {
+          return "yui_3_17_2_1_" + Date.now() + "_" + Math.floor(Math.random() * 10000);
+        }
+
+        function replaceHoneypotField() {
+          var previous = form.querySelector('input[data-test-honeypot="true"]');
+          if (previous) previous.remove();
+          var input = document.createElement("input");
+          input.type = "text";
+          input.name = "message-" + buildUid() + "-field";
+          input.value = "";
+          input.setAttribute("data-test-honeypot", "true");
+          input.style.display = "none";
+          form.appendChild(input);
+        }
+
+        // Add one on load so scan behavior can be tested.
+        replaceHoneypotField();
+
+        // Regenerate before each submit to mimic changing Squarespace field names.
+        form.addEventListener("submit", function () {
+          replaceHoneypotField();
+          var active = form.querySelector('input[data-test-honeypot="true"]');
+          if (active) console.log("Honeypot field for this submit:", active.name);
+        });
+      })();
+    </script>
+  </body>
+</html>
